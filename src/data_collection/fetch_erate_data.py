@@ -195,33 +195,42 @@ def main():
     """Main function to demonstrate usage."""
     import os
     from dotenv import load_dotenv
-    
+
     load_dotenv()
-    
+
     # Initialize collector
     app_token = os.getenv('USAC_APP_TOKEN')
     collector = ERateDataCollector(app_token=app_token)
-    
-    # Example: Fetch California data for 2024
-    df = collector.fetch_data(
-        funding_year=2024,
-        state='CA',
-        limit=100
-    )
-    
-    print(f"\nFetched {len(df)} records")
-    print(f"\nColumns: {df.columns.tolist()}")
+
+    # Example: Fetch recent data without filters (SIMPLER - MORE LIKELY TO WORK)
+    print("\n" + "=" * 70)
+    print("FETCHING E-RATE DATA")
+    print("=" * 70)
+
+    df = collector.fetch_data(limit=1000)  # Just fetch 1000 records, no filters
+
+    print(f"\n✓ Fetched {len(df)} records")
+    print(f"\nColumns available: {df.columns.tolist()}")
     print(f"\nFirst few records:\n{df.head()}")
-    
+
     # Get summary stats
     stats = collector.get_summary_stats(df)
-    print(f"\nSummary Statistics:\n{stats}")
-    
-    # Save to file
-    output_dir = os.getenv('RAW_DATA_DIR', './data/raw')
-    output_path = os.path.join(output_dir, 'erate_sample.csv')
-    collector.save_data(df, output_path)
+    print(f"\n" + "=" * 70)
+    print("SUMMARY STATISTICS")
+    print("=" * 70)
+    for key, value in stats.items():
+        print(f"{key}: {value}")
 
+    # Save to file
+    output_dir = './data/raw'
+    output_path = os.path.join(output_dir, 'erate_data.csv')
+    collector.save_data(df, output_path)
+    print(f"\n✓ Data saved to {output_path}")
+    print("=" * 70)
+
+
+if __name__ == '__main__':
+    main()
 
 if __name__ == '__main__':
     main()

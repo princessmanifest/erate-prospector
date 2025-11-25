@@ -1,4 +1,4 @@
-# CRITICAL: DO NOT COMMIT THESE
+# DO NOT COMMIT THESE
 .env
 kaggle.json
 
@@ -46,6 +46,7 @@ env.bak/
 venv.bak/
 
 # IDEs
+
 .idea/
 .vscode/
 *.swp
